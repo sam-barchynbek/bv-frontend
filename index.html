@@ -8,6 +8,7 @@
     // Function to extract fragment parameters from the URL
     function getFragmentParams() {
       const fragment = window.location.hash.substring(1); // Get everything after the `#`
+      console.log("Raw Fragment (Hash):", fragment); // Debugging: Log the raw fragment
       const params = new URLSearchParams(fragment);
       const result = {};
       for (const [key, value] of params.entries()) {
@@ -46,12 +47,12 @@
     // Extract and send parameters when the page loads
     window.onload = () => {
       const params = getFragmentParams();
-      console.log("Extracted Parameters:", params);
+      console.log("Extracted Parameters:", params); // Debugging: Log the extracted parameters
 
       // Validate required parameters
       if (!params.code || !params.state || !params.id_token || !params.scope) {
         document.getElementById("response").textContent = "Missing required parameters in the URL.";
-        console.error("Missing required parameters:", params);
+        console.error("Missing required parameters:", params); // Debugging: Log missing parameters
         return;
       }
 
