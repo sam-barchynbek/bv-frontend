@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Auth Code Handler</title>
+  <script>
+    // Function to extract fragment parameters from the URL
+    function getFragmentParams() {
+      const fragment = window.location.hash.substring(1); // Get everything after the `#`
+      const params = new URLSearchParams(fragment);
+      const result = {};
+      for (const [key, value] of params.entries()) {
+        result[key] = value;
+      }
+      return result;
+    }
+
+    // Function to send a POST request with the parameters
+    async function sendPostRequest(params) {
+      const endpoint = "https://your-backend-endpoint.com"; // Replace with your backend URL
+
+      try {
+        const response = await fetch(endpoint, {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(params),
+        });
+
+        if (response.ok) {
+          const data = await response.json();
+          console.log("Response from server:", data);
+          document.getElementById("response").textContent = "Success! Check the console.";
+        } else {
+          console.error("Failed to send data:", response.status, response.statusText);
+          document.getElementById("response").textContent = `Error: ${response.status}`;
+        }
+      } catch (error) {
+        console.error("Error making POST request:", error);
+        document.getElementById("response").textContent = "Error sending data.";
+      }
+    }
+
+    // Extract the fragment parameters and send a POST request when the page loads
+    window.onload = () => {
+      const params = getFragmentParams();
+      console.log("Extracted Parameters:", params);
+
+      // Display the parameters on the page for debugging
+      document.getElementById("params").textContent = JSON.stringify(params, null, 2);
+
+      // Send the parameters to the backend
+      sendPostRequest(params);
+    };
+  </script>
+</head>
+<body>
+  <h1>Processing Authorization Code</h1>
+  <p>Fragment parameters (debug):</p>
+  <pre id="params"></pre>
+  <p id="response">Sending data...</p>
+</body>
+</html>
