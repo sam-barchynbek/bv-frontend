@@ -21,11 +21,17 @@
     async function sendPostRequest(params) {
       const endpoint = "https://based.fill-easy.com/sam/bank-verify/request/get-token";
 
+      // Replace these with the actual client ID and secret
+      const clientId = "czjuotdtafnuuqcg7ckuv74lrphnwiig"; // Replace with your actual client ID
+      const clientSecret = "k2r8pqgcluchhemxiydi0cwc1ncrlgvckf89nicqggcmuxwavvvxkxulb3q8ntpm"; // Replace with your actual client secret
+
       try {
         const response = await fetch(endpoint, {
           method: "POST",
           headers: {
             "Content-Type": "application/json",
+            "x-client-id": clientId,
+            "x-client-secret": clientSecret,
           },
           body: JSON.stringify(params),
         });
