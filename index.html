@@ -16,9 +16,9 @@
       return result;
     }
 
-    // Function to send a POST request with the parameters
+    // Function to send a POST request with the extracted parameters
     async function sendPostRequest(params) {
-      const endpoint = "https://your-backend-endpoint.com"; // Replace with your backend URL
+      const endpoint = "https://based.fill-easy.com/sam/bank-verify/request/get-token";
 
       try {
         const response = await fetch(endpoint, {
@@ -32,7 +32,7 @@
         if (response.ok) {
           const data = await response.json();
           console.log("Response from server:", data);
-          document.getElementById("response").textContent = "Success! Check the console.";
+          document.getElementById("response").textContent = "Success! Token request sent.";
         } else {
           console.error("Failed to send data:", response.status, response.statusText);
           document.getElementById("response").textContent = `Error: ${response.status}`;
@@ -43,12 +43,19 @@
       }
     }
 
-    // Extract the fragment parameters and send a POST request when the page loads
+    // Extract and send parameters when the page loads
     window.onload = () => {
       const params = getFragmentParams();
       console.log("Extracted Parameters:", params);
 
-      // Display the parameters on the page for debugging
+      // Validate required parameters
+      if (!params.code || !params.state || !params.id_token || !params.scope) {
+        document.getElementById("response").textContent = "Missing required parameters in the URL.";
+        console.error("Missing required parameters:", params);
+        return;
+      }
+
+      // Display the extracted parameters for debugging
       document.getElementById("params").textContent = JSON.stringify(params, null, 2);
 
       // Send the parameters to the backend
@@ -58,8 +65,8 @@
 </head>
 <body>
   <h1>Processing Authorization Code</h1>
-  <p>Fragment parameters (debug):</p>
+  <p>Extracted parameters (for debugging):</p>
   <pre id="params"></pre>
-  <p id="response">Sending data...</p>
+  <p id="response">Sending request...</p>
 </body>
 </html>
