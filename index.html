@@ -60,6 +60,7 @@
         console.error("Missing required parameters:", params); // Debugging: Log missing parameters
         return;
       }
+      console.log("Code: ", params.code)
 
       // Display the extracted parameters for debugging
       document.getElementById("params").textContent = JSON.stringify(params, null, 2);
